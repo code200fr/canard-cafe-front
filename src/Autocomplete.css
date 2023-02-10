@@ -1,0 +1,8 @@
+form.search {
+    position: relative;
+}
+
+.autocomplete {
+    position: absolute;
+    width: 100%;
+}
