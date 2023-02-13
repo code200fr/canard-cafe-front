@@ -1,0 +1,26 @@
+.smiley-list {
+}
+
+.smiley-list .first {
+    line-height: 300%;
+}
+.smiley-list .first img {
+    transform: scale(2);
+    margin-left: 10px;
+}
+
+.smiley-list .second {
+    line-height: 200%;
+}
+.smiley-list .second img {
+    transform: scale(1.6);
+    margin-left: 6px;
+}
+
+.smiley-list .third {
+    line-height: 150%;
+}
+.smiley-list .third img {
+    transform: scale(1.3);
+    margin-left: 3px;
+}

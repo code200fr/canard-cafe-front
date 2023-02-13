@@ -44,8 +44,8 @@ export class UserLookUp extends React.Component<UserLookUpProps, UserLookUpState
     }
   }
 
-  handleAutocompletePick(event: MouseEvent<HTMLAnchorElement>) {
-    const anchor: HTMLAnchorElement = event.currentTarget;
+  handleAutocompletePick(event: MouseEvent<HTMLButtonElement>) {
+    const anchor: HTMLButtonElement = event.currentTarget;
     this.dispatchSearch(anchor.dataset.username);
   }
 
@@ -65,11 +65,11 @@ export class UserLookUp extends React.Component<UserLookUpProps, UserLookUpState
 
     if (autocomplete?.length) {
       list = <ul className="list-group autocomplete">
-        { autocomplete.map((username: string) => <a href="#" key={username}
+        { autocomplete.map((username: string) => <button key={username}
               onClick={this.handleAutocompletePick} className="list-group-item list-group-item-action"
               data-username={username}>
           {username}
-        </a>) }
+        </button>) }
       </ul>
     }
 
@@ -78,7 +78,7 @@ export class UserLookUp extends React.Component<UserLookUpProps, UserLookUpState
         <div className="form-floating">
           <input type="search" className="form-control" id="user-search"
                  placeholder="Canard..."  value={this.state.query}
-                 onChange={this.handleChange} />
+                 onChange={this.handleChange} autoComplete="off" />
           <label htmlFor="floatingInput">Rechercher un canard</label>
         </div>
         {list}
