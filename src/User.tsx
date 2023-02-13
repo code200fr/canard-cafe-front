@@ -2,6 +2,8 @@ import React from "react";
 import './User.css';
 import { WordCloud } from "./WordCloud";
 import { Smileys } from "./smiley/Smileys";
+import { Quote } from "./Quote";
+import { Topic } from "./Topic";
 
 export interface UserProps {
   entity?: UserEntity;
@@ -15,14 +17,18 @@ export interface UserEntity {
   avatar: string|undefined;
   tokens: UserTokens
   smileys: UserSmileys;
+  quotes: UserQuotes;
+  quotesBy: UserQuotes;
+  topics: UserTopics;
 }
 
 export type UserTokens = Array<{ token: string; freq: number }>;
-export type UserSmileys = Array<{ smiley: string; count: number }>;
+export type UserSmileys = Array<UserSmiley>;
+export type UserSmiley = { smiley: string; count: number; percent: number };
+export type UserQuotes = Array<{ username: string; count: number }>;
+export type UserTopics = Array<{ id: number; name: string; count: number }>;
 
-interface UserState {
-
-}
+interface UserState {}
 
 export class User extends React.Component<UserProps, UserState> {
   constructor(props: UserProps) {
@@ -58,6 +64,14 @@ export class User extends React.Component<UserProps, UserState> {
           </div>
           <div className="col-12 col-md-3">
             <Smileys smileys={entity.smileys}></Smileys>
+          </div>
+        </div>
+        <div className="row mt-2">
+          <div className="col-12 col-md-7">
+            <Quote quotes={entity.quotes} by={entity.quotesBy} username={entity.name}></Quote>
+          </div>
+          <div className="col-12 col-md-5">
+            <Topic topics={entity.topics}></Topic>
           </div>
         </div>
       </main>

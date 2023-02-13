@@ -1,16 +1,17 @@
 import React from "react";
 import { SmileyList } from "./SmileyList";
 import "./Smileys.css";
+import { UserSmiley } from "../User";
 
 export interface SmileysProps {
   smileys: UserSmiley[];
 }
 
-type UserSmiley = {
-  smiley: string;
-  count: number;
+type WithUrl = {
   url?: string;
 }
+
+type UserSmileyWithUrl = UserSmiley & WithUrl;
 
 interface SmileysState {
 }
@@ -23,10 +24,10 @@ export class Smileys extends React.Component<SmileysProps, SmileysState> {
   }
 
   protected getDisplayList(): UserSmiley[] {
-    let smiles: UserSmiley[] =  [...this.props.smileys];
+    let smiles: UserSmileyWithUrl[] =  [...this.props.smileys];
     smiles = smiles.slice(0, 15);
 
-    smiles.forEach((smile: UserSmiley) => {
+    smiles.forEach((smile: UserSmileyWithUrl) => {
       if (SmileyList.hasOwnProperty(smile.smiley)) {
         smile.url = SmileyList[smile.smiley];
       }
@@ -37,9 +38,9 @@ export class Smileys extends React.Component<SmileysProps, SmileysState> {
 
   render() {
     const listElements: JSX.Element[] = [];
-    const smileys: UserSmiley[] = this.getDisplayList();
+    const smileys: UserSmileyWithUrl[] = this.getDisplayList();
 
-    smileys.forEach((smiley: UserSmiley, index: number) => {
+    smileys.forEach((smiley: UserSmileyWithUrl, index: number) => {
       let image: JSX.Element = <span>{smiley.smiley}</span>;
       let className: string = 'd-flex justify-content-between align-items-center list-group-item';
 
@@ -52,9 +53,9 @@ export class Smileys extends React.Component<SmileysProps, SmileysState> {
       if (index === 2) className += ' third';
 
       listElements.push(
-        <li className={className}>
+        <li className={className} key={index}>
           {image}
-          <span className="badge bg-secondary rounded-pill">{smiley.count}</span>
+          <span className="badge bg-secondary rounded-pill">{smiley.percent}%</span>
         </li>
       );
     })
