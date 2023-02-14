@@ -4,6 +4,8 @@ import { WordCloud } from "./WordCloud";
 import { Smileys } from "./smiley/Smileys";
 import { Quote } from "./Quote";
 import { Topic } from "./Topic";
+import { Sentiment } from "./Sentiment";
+import { DateTime } from "./DateTime";
 
 export interface UserProps {
   entity?: UserEntity;
@@ -20,6 +22,8 @@ export interface UserEntity {
   quotes: UserQuotes;
   quotesBy: UserQuotes;
   topics: UserTopics;
+  sentiments: UserSentiments;
+  datetime: UserWeek;
 }
 
 export type UserTokens = Array<{ token: string; freq: number }>;
@@ -27,6 +31,31 @@ export type UserSmileys = Array<UserSmiley>;
 export type UserSmiley = { smiley: string; count: number; percent: number };
 export type UserQuotes = Array<{ username: string; count: number }>;
 export type UserTopics = Array<{ id: number; name: string; count: number }>;
+export type UserSentiments = { negative: number; neutral: number; positive: number; _id?: string; };
+export type UserWeek = {
+  1: DayTime;
+  2: DayTime;
+  3: DayTime;
+  4: DayTime;
+  5: DayTime;
+  6: DayTime;
+  7: DayTime;
+};
+
+export type DayTime = {
+  0: number;
+  2: number;
+  4: number;
+  6: number;
+  8: number;
+  10: number;
+  12: number;
+  14: number;
+  16: number;
+  18: number;
+  20: number;
+  22: number;
+};
 
 interface UserState {}
 
@@ -38,7 +67,7 @@ export class User extends React.Component<UserProps, UserState> {
 
   render() {
     if (!this.props.entity) {
-      return '';
+      return <p className="lead text-center">Commencez en cherchant un canard par son pseudo.</p>;
     }
 
     const entity: UserEntity = this.props.entity;
@@ -72,6 +101,14 @@ export class User extends React.Component<UserProps, UserState> {
           </div>
           <div className="col-12 col-md-5">
             <Topic topics={entity.topics}></Topic>
+          </div>
+        </div>
+        <div className="row mt-2">
+          <div className="col-12 col-md-5">
+            <Sentiment sentiments={entity.sentiments}></Sentiment>
+          </div>
+          <div className="col-12 col-md-7">
+            <DateTime week={entity.datetime}></DateTime>
           </div>
         </div>
       </main>

@@ -2,20 +2,32 @@ import React from "react";
 import './App.css';
 import { UserLookUp } from "./UserLookUp";
 import { User, UserEntity } from "./User";
+import { CorpusModal } from "./CorpusModal";
 
 export interface AppProps {}
 export interface AppState {
-  user?: UserEntity
+  user?: UserEntity;
+  corpusOpen: boolean;
 }
 
 class App extends React.Component<AppProps, AppState> {
+
   constructor(props: AppProps) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      corpusOpen: false
+    };
 
     this.search = this.search.bind(this);
     this.load = this.load.bind(this);
+    this.openCorpusModal = this.openCorpusModal.bind(this);
+  }
+
+  openCorpusModal() {
+    this.setState({
+      corpusOpen: true
+    })
   }
 
   search(query?: string) {
@@ -55,6 +67,20 @@ class App extends React.Component<AppProps, AppState> {
         <div className="container">
           <User entity={this.state.user}></User>
         </div>
+
+        <div className="container">
+          <footer className="py-3 my-4">
+            <ul className="nav justify-content-center border-bottom pb-3 mb-3">
+              <li className="nav-item"><a href="https://forum.canardpc.com/" className="nav-link px-2 text-muted" target="_blank" rel="noreferrer">Communauté</a></li>
+              <li className="nav-item"><a href="#" className="nav-link px-2 text-muted" onClick={this.openCorpusModal}>Corpus</a></li>
+              <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">À propos</a></li>
+              <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Github</a></li>
+              <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Données personnelles</a></li>
+            </ul>
+            <p className="text-center text-muted">Réalisé par Jonathan P. · Code 200</p>
+          </footer>
+        </div>
+        <CorpusModal open={this.state.corpusOpen}></CorpusModal>
       </div>
     );
   }
