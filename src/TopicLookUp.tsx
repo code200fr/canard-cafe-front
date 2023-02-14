@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent } from "react";
+import React, { ChangeEvent, FormEvent } from 'react';
 import './Autocomplete.css';
 
 export interface TopicLookUpProps {
@@ -10,10 +10,13 @@ interface TopicLookUpState {
   query?: string;
 }
 
-export class TopicLookUp extends React.Component<TopicLookUpProps, TopicLookUpState> {
+export class TopicLookUp extends React.Component<
+  TopicLookUpProps,
+  TopicLookUpState
+> {
   constructor(props: TopicLookUpProps) {
     super(props);
-    this.state = {query: props.query ?? ''};
+    this.state = { query: props.query ?? '' };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -25,14 +28,21 @@ export class TopicLookUp extends React.Component<TopicLookUpProps, TopicLookUpSt
   }
 
   handleChange(event: ChangeEvent<HTMLInputElement>) {
-    this.setState({query: event.target.value});
+    this.setState({ query: event.target.value });
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit} className="search">
         <div className="form-floating">
-          <input type="search" className="form-control" id="topic-search" placeholder="Topic..."  value={this.state.query} onChange={this.handleChange} />
+          <input
+            type="search"
+            className="form-control"
+            id="topic-search"
+            placeholder="Topic..."
+            value={this.state.query}
+            onChange={this.handleChange}
+          />
           <label htmlFor="floatingInput">Rechercher un topic</label>
         </div>
       </form>

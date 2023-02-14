@@ -1,8 +1,10 @@
-import React from "react";
-import './App.css';
-import { UserLookUp } from "./UserLookUp";
-import { User, UserEntity } from "./User";
-import { CorpusModal } from "./CorpusModal";
+import React from 'react';
+import { UserLookUp } from './user/UserLookUp';
+import { User, UserEntity } from './user/User';
+import { CorpusModal } from './CorpusModal';
+import { Footer } from './Footer';
+import { EventDispatcher } from './EventDispatcher';
+import { AppEvents } from './AppEvents';
 
 export interface AppProps {}
 export interface AppState {
@@ -11,23 +13,31 @@ export interface AppState {
 }
 
 class App extends React.Component<AppProps, AppState> {
-
   constructor(props: AppProps) {
     super(props);
 
     this.state = {
-      corpusOpen: false
+      corpusOpen: false,
     };
 
     this.search = this.search.bind(this);
     this.load = this.load.bind(this);
     this.openCorpusModal = this.openCorpusModal.bind(this);
+    this.onCloseCorpusModal = this.onCloseCorpusModal.bind(this);
+
+    EventDispatcher.on(AppEvents.OpenCorpus, this.openCorpusModal);
   }
 
   openCorpusModal() {
     this.setState({
-      corpusOpen: true
-    })
+      corpusOpen: true,
+    });
+  }
+
+  onCloseCorpusModal() {
+    this.setState({
+      corpusOpen: false,
+    });
   }
 
   search(query?: string) {
@@ -35,7 +45,7 @@ class App extends React.Component<AppProps, AppState> {
       this.load(query);
     } else {
       this.setState({
-        user: undefined
+        user: undefined,
       });
     }
   }
@@ -45,7 +55,7 @@ class App extends React.Component<AppProps, AppState> {
       .then((response) => response.json())
       .then((user: UserEntity) => {
         this.setState({
-          user: user
+          user: user,
         });
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -56,14 +66,22 @@ class App extends React.Component<AppProps, AppState> {
     return (
       <div className="App">
         <div className="container">
-          <header
-            className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-            <a href="/" className="d-flex align-items-center col-md-3 text-dark text-decoration-none">
-              <img src="https://forum.canardpc.com/images/misc/LogoCPC.png" className="App-logo" alt="logo" />
+          <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+            <a
+              href="/"
+              className="d-flex align-items-center col-md-3 text-dark text-decoration-none"
+            >
+              <img
+                src="https://forum.canardpc.com/images/misc/LogoCPC.png"
+                className="App-logo"
+                alt="logo"
+              />
             </a>
 
             <ul className="nav col-12 col-md-auto gap-2">
-              <li className="mr2"><UserLookUp onSearch={this.search}></UserLookUp></li>
+              <li className="m-auto mt-3">
+                <UserLookUp onSearch={this.search}></UserLookUp>
+              </li>
             </ul>
           </header>
         </div>
@@ -73,23 +91,16 @@ class App extends React.Component<AppProps, AppState> {
         </div>
 
         <div className="container">
-          <footer className="py-3 my-4">
-            <ul className="nav justify-content-center border-bottom pb-3 mb-3">
-              <li className="nav-item"><a href="https://forum.canardpc.com/" className="nav-link px-2 text-muted" target="_blank" rel="noreferrer">Communauté</a></li>
-              <li className="nav-item"><a href="#corpus" className="nav-link px-2 text-muted" onClick={this.openCorpusModal}>Corpus</a></li>
-              <li className="nav-item"><a href="#about" className="nav-link px-2 text-muted">À propos</a></li>
-              <li className="nav-item"><a href="https://github.com/code200fr/canard-cafe-front" className="nav-link px-2 text-muted">Github Frontend</a></li>
-              <li className="nav-item"><a href="https://github.com/code200fr/canard-cafe" className="nav-link px-2 text-muted">Github Backend</a></li>
-              <li className="nav-item"><a href="#rgpd" className="nav-link px-2 text-muted">Données personnelles</a></li>
-            </ul>
-            <p className="text-center text-muted"><a href="https://github.com/code200fr" className="nav-link text-muted">Réalisé par Jonathan P. · Code 200</a></p>
-          </footer>
+          <Footer></Footer>
         </div>
-        <CorpusModal open={this.state.corpusOpen}></CorpusModal>
+
+        <CorpusModal
+          open={this.state.corpusOpen}
+          onClose={this.onCloseCorpusModal}
+        ></CorpusModal>
       </div>
     );
   }
-
 }
 
 export default App;

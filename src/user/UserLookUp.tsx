@@ -1,5 +1,5 @@
-import React, { ChangeEvent, FormEvent, MouseEvent } from "react";
-import './Autocomplete.css';
+import React, { ChangeEvent, FormEvent, MouseEvent } from 'react';
+import '../Autocomplete.css';
 
 export interface UserLookUpProps {
   query?: string;
@@ -11,11 +11,14 @@ interface UserLookUpState {
   autocomplete?: string[];
 }
 
-export class UserLookUp extends React.Component<UserLookUpProps, UserLookUpState> {
+export class UserLookUp extends React.Component<
+  UserLookUpProps,
+  UserLookUpState
+> {
   constructor(props: UserLookUpProps) {
     super(props);
     this.state = {
-      query: props.query ?? ''
+      query: props.query ?? '',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -28,15 +31,15 @@ export class UserLookUp extends React.Component<UserLookUpProps, UserLookUpState
       .then((response: Response) => response.json())
       .then((usernames: string[]) => {
         this.setState({
-          autocomplete: usernames
-        })
+          autocomplete: usernames,
+        });
       });
   }
 
   dispatchSearch(username?: string) {
     this.setState({
       autocomplete: [],
-      query: username
+      query: username,
     });
 
     if (username) {
@@ -55,7 +58,7 @@ export class UserLookUp extends React.Component<UserLookUpProps, UserLookUpState
   }
 
   handleChange(event: ChangeEvent<HTMLInputElement>) {
-    this.setState({query: event.target.value});
+    this.setState({ query: event.target.value });
     this.autocomplete(event.target.value);
   }
 
@@ -64,21 +67,34 @@ export class UserLookUp extends React.Component<UserLookUpProps, UserLookUpState
     let list;
 
     if (autocomplete?.length) {
-      list = <ul className="list-group autocomplete">
-        { autocomplete.map((username: string) => <button key={username}
-              onClick={this.handleAutocompletePick} className="list-group-item list-group-item-action"
-              data-username={username}>
-          {username}
-        </button>) }
-      </ul>
+      list = (
+        <ul className="list-group autocomplete">
+          {autocomplete.map((username: string) => (
+            <button
+              key={username}
+              onClick={this.handleAutocompletePick}
+              className="list-group-item list-group-item-action"
+              data-username={username}
+            >
+              {username}
+            </button>
+          ))}
+        </ul>
+      );
     }
 
     return (
       <form onSubmit={this.handleSubmit} className="search">
         <div className="form-floating">
-          <input type="search" className="form-control" id="user-search"
-                 placeholder="Canard..."  value={this.state.query}
-                 onChange={this.handleChange} autoComplete="off" />
+          <input
+            type="search"
+            className="form-control"
+            id="user-search"
+            placeholder="Canard..."
+            value={this.state.query}
+            onChange={this.handleChange}
+            autoComplete="off"
+          />
           <label htmlFor="floatingInput">Rechercher un canard</label>
         </div>
         {list}

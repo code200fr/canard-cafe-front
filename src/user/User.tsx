@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 import './User.css';
-import { WordCloud } from "./WordCloud";
-import { Smileys } from "./smiley/Smileys";
-import { Quote } from "./Quote";
-import { Topic } from "./Topic";
-import { Sentiment } from "./Sentiment";
-import { DateTime } from "./DateTime";
+import { WordCloud } from './WordCloud';
+import { Smileys } from '../smiley/Smileys';
+import { Quote } from './Quote';
+import { Topic } from './Topic';
+import { Sentiment } from './Sentiment';
+import { DateTime } from './DateTime';
 
 export interface UserProps {
   entity?: UserEntity;
@@ -16,9 +16,9 @@ export interface UserEntity {
   id: number;
   name: string;
   url: string;
-  title: string|undefined;
-  avatar: string|undefined;
-  tokens: UserTokens
+  title: string | undefined;
+  avatar: string | undefined;
+  tokens: UserTokens;
   smileys: UserSmileys;
   quotes: UserQuotes;
   quotesBy: UserQuotes;
@@ -32,7 +32,12 @@ export type UserSmileys = Array<UserSmiley>;
 export type UserSmiley = { smiley: string; count: number; percent: number };
 export type UserQuotes = Array<{ username: string; count: number }>;
 export type UserTopics = Array<{ id: number; name: string; count: number }>;
-export type UserSentiments = { negative: number; neutral: number; positive: number; _id?: string; };
+export type UserSentiments = {
+  negative: number;
+  neutral: number;
+  positive: number;
+  _id?: string;
+};
 export type UserWeek = {
   1: DayTime;
   2: DayTime;
@@ -68,15 +73,21 @@ export class User extends React.Component<UserProps, UserState> {
 
   render() {
     if (!this.props.entity) {
-      return <p className="lead text-center">Commencez en cherchant un canard par son pseudo.</p>;
+      return (
+        <p className="lead text-center">
+          Commencez en cherchant un canard par son pseudo.
+        </p>
+      );
     }
 
     const entity: UserEntity = this.props.entity;
     let avatar;
 
     if (entity.avatar) {
-      const avatarUrl: string = "https://forum.canardpc.com/" + entity.avatar;
-      avatar = <img src={avatarUrl} className="user-avatar me-2" alt={entity.name} />
+      const avatarUrl: string = 'https://forum.canardpc.com/' + entity.avatar;
+      avatar = (
+        <img src={avatarUrl} className="user-avatar me-2" alt={entity.name} />
+      );
     }
 
     return (
@@ -84,12 +95,14 @@ export class User extends React.Component<UserProps, UserState> {
         <div className="d-flex align-items-center">
           {avatar}
           <h1 className="display-4">
-            { entity.name }
-            <small className="text-muted d-block user-title">{ entity.title }</small>
+            {entity.name}
+            <small className="text-muted d-block user-title">
+              {entity.title}
+            </small>
           </h1>
         </div>
         <div className="row mt-2">
-          <div className="col-12 col-md-9">
+          <div className="col-12 col-md-9 mb-2">
             <WordCloud words={entity.tokens}></WordCloud>
           </div>
           <div className="col-12 col-md-3">
@@ -97,15 +110,20 @@ export class User extends React.Component<UserProps, UserState> {
           </div>
         </div>
         <div className="row mt-2">
-          <div className="col-12 col-md-7">
-            <Quote quotes={entity.quotes} by={entity.quotesBy} username={entity.name} onSearch={this.props.onSearch}></Quote>
+          <div className="col-12 col-md-7 mb-2">
+            <Quote
+              quotes={entity.quotes}
+              by={entity.quotesBy}
+              username={entity.name}
+              onSearch={this.props.onSearch}
+            ></Quote>
           </div>
           <div className="col-12 col-md-5">
             <Topic topics={entity.topics}></Topic>
           </div>
         </div>
         <div className="row mt-2">
-          <div className="col-12 col-md-5">
+          <div className="col-12 col-md-5 mb-2">
             <Sentiment sentiments={entity.sentiments}></Sentiment>
           </div>
           <div className="col-12 col-md-7">

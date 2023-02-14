@@ -1,7 +1,7 @@
-import React from "react";
-import { SmileyList } from "./SmileyList";
-import "./Smileys.css";
-import { UserSmiley } from "../User";
+import React from 'react';
+import { SmileyList } from './SmileyList';
+import './Smileys.css';
+import { UserSmiley } from '../user/User';
 
 export interface SmileysProps {
   smileys: UserSmiley[];
@@ -9,12 +9,11 @@ export interface SmileysProps {
 
 type WithUrl = {
   url?: string;
-}
+};
 
 type UserSmileyWithUrl = UserSmiley & WithUrl;
 
-interface SmileysState {
-}
+interface SmileysState {}
 
 export class Smileys extends React.Component<SmileysProps, SmileysState> {
   constructor(props: SmileysProps) {
@@ -24,14 +23,14 @@ export class Smileys extends React.Component<SmileysProps, SmileysState> {
   }
 
   protected getDisplayList(): UserSmiley[] {
-    let smiles: UserSmileyWithUrl[] =  [...this.props.smileys];
+    let smiles: UserSmileyWithUrl[] = [...this.props.smileys];
     smiles = smiles.slice(0, 15);
 
     smiles.forEach((smile: UserSmileyWithUrl) => {
       if (SmileyList.hasOwnProperty(smile.smiley)) {
         smile.url = SmileyList[smile.smiley];
       }
-    })
+    });
 
     return smiles;
   }
@@ -42,7 +41,8 @@ export class Smileys extends React.Component<SmileysProps, SmileysState> {
 
     smileys.forEach((smiley: UserSmileyWithUrl, index: number) => {
       let image: JSX.Element = <span>{smiley.smiley}</span>;
-      let className: string = 'd-flex justify-content-between align-items-center list-group-item';
+      let className: string =
+        'd-flex justify-content-between align-items-center list-group-item';
 
       if (smiley.url) {
         image = <img src={smiley.url} alt={smiley.smiley} />;
@@ -55,20 +55,18 @@ export class Smileys extends React.Component<SmileysProps, SmileysState> {
       listElements.push(
         <li className={className} key={index}>
           {image}
-          <span className="badge bg-secondary rounded-pill">{smiley.percent}%</span>
-        </li>
+          <span className="badge bg-secondary rounded-pill">
+            {smiley.percent}%
+          </span>
+        </li>,
       );
-    })
+    });
 
     return (
       <div className="card">
-        <h4 className="card-header">
-          Smileys
-        </h4>
+        <h4 className="card-header">Smileys</h4>
         <div className="card-body">
-          <div className="list-group smiley-list">
-            {listElements}
-          </div>
+          <div className="list-group smiley-list">{listElements}</div>
         </div>
       </div>
     );

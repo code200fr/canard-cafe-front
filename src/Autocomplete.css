@@ -1,9 +1,9 @@
 form.search {
-    position: relative;
+  position: relative;
 }
 
 .autocomplete {
-    position: absolute;
-    z-index: 3;
-    width: 100%;
+  position: absolute;
+  z-index: 3;
+  width: 100%;
 }
