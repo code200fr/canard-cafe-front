@@ -81,6 +81,10 @@ export class WordCloud extends React.Component<WordCloudProps, WordCloudState> {
       this.getSVG().innerHTML = '';
     }
 
+    if (!this.props.words.length) {
+      return;
+    }
+
     let minFreq = 1;
     let maxFreq = 0;
 
@@ -141,18 +145,24 @@ export class WordCloud extends React.Component<WordCloudProps, WordCloudState> {
   }
 
   render() {
+    let disabledMessage: JSX.Element = (<span></span>);
+
+    if (!this.props.words.length) {
+      disabledMessage = (
+        <div className="alert alert-info" role="alert">
+          Pas assez de données disponibles.
+        </div>
+      );
+    }
+
     return (
       <div className="card" id={this.state.cardId}>
         <h4 className="card-header">
           Mots-clés
         </h4>
         <div className="card-body">
+          {disabledMessage}
           <svg id={this.state.svgId} />
-        </div>
-        <div className="card-footer text-muted">
-          <small>
-            Mots-clés qui ressortent en particulier pour ce canard (TF-IDF)
-          </small>
         </div>
       </div>
     );

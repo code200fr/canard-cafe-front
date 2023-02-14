@@ -43,9 +43,13 @@ class App extends React.Component<AppProps, AppState> {
   load(username: string) {
     fetch(`/user/${username}`)
       .then((response) => response.json())
-      .then((user: UserEntity) => this.setState({
-        user: user
-      }));
+      .then((user: UserEntity) => {
+        this.setState({
+          user: user
+        });
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
   }
 
   render() {
@@ -65,19 +69,20 @@ class App extends React.Component<AppProps, AppState> {
         </div>
 
         <div className="container">
-          <User entity={this.state.user}></User>
+          <User entity={this.state.user} onSearch={this.search}></User>
         </div>
 
         <div className="container">
           <footer className="py-3 my-4">
             <ul className="nav justify-content-center border-bottom pb-3 mb-3">
               <li className="nav-item"><a href="https://forum.canardpc.com/" className="nav-link px-2 text-muted" target="_blank" rel="noreferrer">Communauté</a></li>
-              <li className="nav-item"><a href="#" className="nav-link px-2 text-muted" onClick={this.openCorpusModal}>Corpus</a></li>
-              <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">À propos</a></li>
-              <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Github</a></li>
-              <li className="nav-item"><a href="#" className="nav-link px-2 text-muted">Données personnelles</a></li>
+              <li className="nav-item"><a href="#corpus" className="nav-link px-2 text-muted" onClick={this.openCorpusModal}>Corpus</a></li>
+              <li className="nav-item"><a href="#about" className="nav-link px-2 text-muted">À propos</a></li>
+              <li className="nav-item"><a href="https://github.com/code200fr/canard-cafe-front" className="nav-link px-2 text-muted">Github Frontend</a></li>
+              <li className="nav-item"><a href="https://github.com/code200fr/canard-cafe" className="nav-link px-2 text-muted">Github Backend</a></li>
+              <li className="nav-item"><a href="#rgpd" className="nav-link px-2 text-muted">Données personnelles</a></li>
             </ul>
-            <p className="text-center text-muted">Réalisé par Jonathan P. · Code 200</p>
+            <p className="text-center text-muted"><a href="https://github.com/code200fr" className="nav-link text-muted">Réalisé par Jonathan P. · Code 200</a></p>
           </footer>
         </div>
         <CorpusModal open={this.state.corpusOpen}></CorpusModal>

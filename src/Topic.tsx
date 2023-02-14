@@ -32,11 +32,6 @@ export class Topic extends React.Component<TopicProps, TopicState> {
             {topics}
           </ol>
         </div>
-        <div className="card-footer text-muted">
-          <small>
-            Uniquement parmi les topics traités
-          </small>
-        </div>
       </div>
     );
   }

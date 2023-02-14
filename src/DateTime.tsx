@@ -1,6 +1,6 @@
 import React from "react";
 import * as d3 from "d3";
-import { UserSentiments, UserWeek } from "./User";
+import { UserWeek } from "./User";
 
 export interface DateTimeProps {
   week: UserWeek;
@@ -116,8 +116,6 @@ export class DateTime extends React.Component<DateTimeProps, DateTimeState> {
         }
       }
     }
-
-    console.log(data);
 
     const colors = d3.scaleLinear()
       .range(["white", "#417394"] as any)

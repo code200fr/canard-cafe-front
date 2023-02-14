@@ -117,9 +117,9 @@ export class Sentiment extends React.Component<SentimentProps, SentimentState> {
       .join('image')
       .attr("xlink:href", (d) => {
         switch (d.data[0] as string) {
-          case 'negative': return "https://forum.canardpc.com/images/smilies/hum.png"; break;
-          case 'neutral': return "https://forum.canardpc.com/images/smilies/mouais.gif"; break;
-          case 'positive': return "https://forum.canardpc.com/images/smilies/lapinsmilecn5.png"; break;
+          case 'negative': return "https://forum.canardpc.com/images/smilies/hum.png";
+          case 'neutral': return "https://forum.canardpc.com/images/smilies/mouais.gif";
+          case 'positive': return "https://forum.canardpc.com/images/smilies/lapinsmilecn5.png";
         }
 
         return '';
@@ -147,9 +147,6 @@ export class Sentiment extends React.Component<SentimentProps, SentimentState> {
           Négatif: <strong>{this.percents.negative}%</strong> ·
           Neutre: <strong>{this.percents.neutral}%</strong> ·
           Positif: <strong>{this.percents.positive}%</strong>
-          <small className="d-block">
-            Sur un extrait de 1000 messages aléatoires maximum
-          </small>
         </div>
       </div>
     );

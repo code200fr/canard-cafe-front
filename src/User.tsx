@@ -9,6 +9,7 @@ import { DateTime } from "./DateTime";
 
 export interface UserProps {
   entity?: UserEntity;
+  onSearch: (query?: string) => void;
 }
 
 export interface UserEntity {
@@ -97,7 +98,7 @@ export class User extends React.Component<UserProps, UserState> {
         </div>
         <div className="row mt-2">
           <div className="col-12 col-md-7">
-            <Quote quotes={entity.quotes} by={entity.quotesBy} username={entity.name}></Quote>
+            <Quote quotes={entity.quotes} by={entity.quotesBy} username={entity.name} onSearch={this.props.onSearch}></Quote>
           </div>
           <div className="col-12 col-md-5">
             <Topic topics={entity.topics}></Topic>

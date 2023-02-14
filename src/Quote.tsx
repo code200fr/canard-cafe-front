@@ -1,10 +1,11 @@
-import React from "react";
+import React, { MouseEvent } from "react";
 import { UserQuotes } from "./User";
 
 export interface QuoteProps {
   quotes: UserQuotes;
   by: UserQuotes;
   username: string;
+  onSearch: (query?: string) => void;
 }
 
 interface QuoteState {
@@ -15,18 +16,36 @@ export class Quote extends React.Component<QuoteProps, QuoteState> {
   constructor(props: QuoteProps) {
     super(props);
     this.state = {};
+
+    this.openUser = this.openUser.bind(this);
+  }
+
+  openUser(event: MouseEvent<HTMLAnchorElement>) {
+    event.preventDefault();
+    const anchor: HTMLAnchorElement = event.currentTarget;
+    this.props.onSearch(anchor.dataset.username);
   }
 
   render() {
     const users: JSX.Element[] = [];
     const byUsers: JSX.Element[] = [];
 
+    const addUser = (list: JSX.Element[], quote: { username: string; count: number }) => {
+      list.push((
+        <li key={quote.username} className="list-group-item">
+          <a href="#user-loading" data-username={quote.username} className="text-secondary" onClick={this.openUser}>
+            {quote.username}
+          </a>
+        </li>
+      ))
+    }
+
     this.props.quotes.forEach((quote: { username: string; count: number }) => {
-      users.push(<li key={quote.username} className="list-group-item">{quote.username}</li>);
+      addUser(users, quote);
     });
 
     this.props.by.forEach((quote: { username: string; count: number }) => {
-      byUsers.push(<li key={quote.username} className="list-group-item">{quote.username}</li>);
+      addUser(byUsers, quote);
     });
 
     return (
