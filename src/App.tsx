@@ -5,11 +5,13 @@ import { CorpusModal } from './CorpusModal';
 import { Footer } from './Footer';
 import { EventDispatcher } from './EventDispatcher';
 import { AppEvents } from './AppEvents';
+import { AboutModal } from './AboutModal';
 
 export interface AppProps {}
 export interface AppState {
   user?: UserEntity;
   corpusOpen: boolean;
+  aboutOpen: boolean;
 }
 
 class App extends React.Component<AppProps, AppState> {
@@ -18,14 +20,25 @@ class App extends React.Component<AppProps, AppState> {
 
     this.state = {
       corpusOpen: false,
+      aboutOpen: false,
     };
 
     this.search = this.search.bind(this);
     this.load = this.load.bind(this);
     this.openCorpusModal = this.openCorpusModal.bind(this);
     this.onCloseCorpusModal = this.onCloseCorpusModal.bind(this);
+    this.openAboutModal = this.openAboutModal.bind(this);
+    this.onCloseAboutModal = this.onCloseAboutModal.bind(this);
+    this.goHome = this.goHome.bind(this);
 
     EventDispatcher.on(AppEvents.OpenCorpus, this.openCorpusModal);
+    EventDispatcher.on(AppEvents.OpenAbout, this.openAboutModal);
+  }
+
+  goHome() {
+    this.setState({
+      user: undefined,
+    });
   }
 
   openCorpusModal() {
@@ -37,6 +50,18 @@ class App extends React.Component<AppProps, AppState> {
   onCloseCorpusModal() {
     this.setState({
       corpusOpen: false,
+    });
+  }
+
+  openAboutModal() {
+    this.setState({
+      aboutOpen: true,
+    });
+  }
+
+  onCloseAboutModal() {
+    this.setState({
+      aboutOpen: false,
     });
   }
 
@@ -68,8 +93,9 @@ class App extends React.Component<AppProps, AppState> {
         <div className="container">
           <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
             <a
-              href="/"
+              href="#home"
               className="d-flex align-items-center col-md-3 text-dark text-decoration-none"
+              onClick={this.goHome}
             >
               <img
                 src="https://forum.canardpc.com/images/misc/LogoCPC.png"
@@ -98,6 +124,11 @@ class App extends React.Component<AppProps, AppState> {
           open={this.state.corpusOpen}
           onClose={this.onCloseCorpusModal}
         ></CorpusModal>
+
+        <AboutModal
+          open={this.state.aboutOpen}
+          onClose={this.onCloseAboutModal}
+        ></AboutModal>
       </div>
     );
   }

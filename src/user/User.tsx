@@ -6,6 +6,7 @@ import { Quote } from './Quote';
 import { Topic } from './Topic';
 import { Sentiment } from './Sentiment';
 import { DateTime } from './DateTime';
+import { UsersGraph } from '../UsersGraph';
 
 export interface UserProps {
   entity?: UserEntity;
@@ -74,9 +75,13 @@ export class User extends React.Component<UserProps, UserState> {
   render() {
     if (!this.props.entity) {
       return (
-        <p className="lead text-center">
-          Commencez en cherchant un canard par son pseudo.
-        </p>
+        <div className="d-flex flex-column align-items-center justify-content-center">
+          <p className="lead text-center">
+            Commencez en cherchant un canard par son pseudo ci-dessus.
+          </p>
+
+          <UsersGraph></UsersGraph>
+        </div>
       );
     }
 

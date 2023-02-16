@@ -103,6 +103,10 @@ export class CorpusModal extends React.Component<
               ></button>
             </div>
             <div className="modal-body">
+              <p>
+                Tous les messages <strong>après le 1er janvier 2020</strong> de
+                ces topics sont utilisés :
+              </p>
               <ul className="list-group">{content}</ul>
             </div>
             <div className="modal-footer">

@@ -28,7 +28,9 @@ export class Sentiment extends React.Component<SentimentProps, SentimentState> {
       () => {
         this.onResize();
       },
-      false,
+      {
+        passive: true,
+      },
     );
   }
 
@@ -45,7 +47,11 @@ export class Sentiment extends React.Component<SentimentProps, SentimentState> {
     }, 1000);
   }
 
-  protected computePercents(): UserSentiments {
+  protected computePercents(): UserSentiments | null {
+    if (this.props.sentiments === undefined) {
+      return null;
+    }
+
     const total: number =
       this.props.sentiments.negative +
       this.props.sentiments.neutral +
@@ -156,7 +162,24 @@ export class Sentiment extends React.Component<SentimentProps, SentimentState> {
   }
 
   render() {
-    const percents: UserSentiments = this.computePercents();
+    const percents: UserSentiments | null = this.computePercents();
+    let footer: JSX.Element;
+
+    if (percents) {
+      footer = (
+        <div className="card-footer text-muted">
+          Négatif: <strong>{percents.negative}%</strong> · Neutre:{' '}
+          <strong>{percents.neutral}%</strong> · Positif:{' '}
+          <strong>{percents.positive}%</strong>
+        </div>
+      );
+    } else {
+      footer = (
+        <div className="card-footer text-muted">
+          Pas assez de données pour ce canard.
+        </div>
+      );
+    }
 
     return (
       <div className="card">
@@ -164,11 +187,7 @@ export class Sentiment extends React.Component<SentimentProps, SentimentState> {
         <div className="card-body">
           <div id={this.id}></div>
         </div>
-        <div className="card-footer text-muted">
-          Négatif: <strong>{percents.negative}%</strong> · Neutre:{' '}
-          <strong>{percents.neutral}%</strong> · Positif:{' '}
-          <strong>{percents.positive}%</strong>
-        </div>
+        {footer}
       </div>
     );
   }

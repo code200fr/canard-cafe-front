@@ -13,6 +13,12 @@ export class DateTime extends React.Component<DateTimeProps, DateTimeState> {
   protected resizeTimeout;
   protected width: number = 0;
 
+  protected static readonly Colors = {
+    NoActivity: '#fff',
+    Activity: '#417394',
+    HighActivity: '#9b2a2a',
+  };
+
   constructor(props: DateTimeProps) {
     super(props);
     this.state = {};
@@ -105,8 +111,6 @@ export class DateTime extends React.Component<DateTimeProps, DateTimeState> {
       '22',
     ];
     const days = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
-
-    // Build X scales and axis:
     const x = d3.scaleBand().range([0, width]).domain(hours).padding(0.01);
 
     svg
@@ -145,8 +149,12 @@ export class DateTime extends React.Component<DateTimeProps, DateTimeState> {
 
     const colors = d3
       .scaleLinear()
-      .range(['white', '#417394'] as any)
-      .domain([0, max]);
+      .range([
+        DateTime.Colors.NoActivity,
+        DateTime.Colors.Activity,
+        DateTime.Colors.HighActivity,
+      ] as any)
+      .domain([0, max / 2, max] as any);
 
     svg
       .selectAll()
@@ -161,7 +169,7 @@ export class DateTime extends React.Component<DateTimeProps, DateTimeState> {
       .attr('width', x.bandwidth())
       .attr('height', y.bandwidth())
       .style('fill', function (d) {
-        return colors(d.value as any);
+        return colors(d.value as any) as any;
       });
   }
 
@@ -171,6 +179,30 @@ export class DateTime extends React.Component<DateTimeProps, DateTimeState> {
         <h4 className="card-header">Heures d'activités</h4>
         <div className="card-body">
           <div id={this.id}></div>
+        </div>
+        <div className="card-footer text-muted">
+          <small>Activité :</small>
+          <span
+            className="badge me-2"
+            style={{
+              backgroundColor: DateTime.Colors.NoActivity,
+              color: 'black',
+            }}
+          >
+            Aucune
+          </span>
+          <span
+            className="badge me-2"
+            style={{ backgroundColor: DateTime.Colors.Activity }}
+          >
+            Normal
+          </span>
+          <span
+            className="badge"
+            style={{ backgroundColor: DateTime.Colors.HighActivity }}
+          >
+            Maximum
+          </span>
         </div>
       </div>
     );

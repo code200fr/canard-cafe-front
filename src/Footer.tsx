@@ -17,6 +17,10 @@ export class Footer extends React.Component<FooterProps, FooterState> {
     EventDispatcher.emit(AppEvents.OpenCorpus);
   }
 
+  openAboutModal() {
+    EventDispatcher.emit(AppEvents.OpenAbout);
+  }
+
   render() {
     return (
       <footer className="py-3 my-4">
@@ -28,7 +32,7 @@ export class Footer extends React.Component<FooterProps, FooterState> {
               target="_blank"
               rel="noreferrer"
             >
-              Communauté
+              Forum CPC
             </a>
           </li>
           <li className="nav-item">
@@ -41,7 +45,11 @@ export class Footer extends React.Component<FooterProps, FooterState> {
             </a>
           </li>
           <li className="nav-item">
-            <a href="#about" className="nav-link px-2 text-muted">
+            <a
+              href="#about"
+              className="nav-link px-2 text-muted"
+              onClick={this.openAboutModal}
+            >
               À propos
             </a>
           </li>
@@ -59,11 +67,6 @@ export class Footer extends React.Component<FooterProps, FooterState> {
               className="nav-link px-2 text-muted"
             >
               Github Backend
-            </a>
-          </li>
-          <li className="nav-item">
-            <a href="#rgpd" className="nav-link px-2 text-muted">
-              Données personnelles
             </a>
           </li>
         </ul>
