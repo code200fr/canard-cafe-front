@@ -195,7 +195,7 @@ export class DateTime extends React.Component<DateTimeProps, DateTimeState> {
             className="badge me-2"
             style={{ backgroundColor: DateTime.Colors.Activity }}
           >
-            Normal
+            Normale
           </span>
           <span
             className="badge"
